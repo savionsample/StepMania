@@ -126,6 +126,12 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 			g.drawRect(300 + i * 100, 900, 100, 90);
 		}
 		
+		for (int i = 0; i < 5; i++)
+		{
+			g.setColor(Color.black);
+			g.drawLine(300 + 100 * i, 20, 300 + 100 * i, 900);
+		}
+		
 		bar.draw(g);
 		
 		g.setColor(Color.green);
