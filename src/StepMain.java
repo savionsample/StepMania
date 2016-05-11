@@ -1,7 +1,14 @@
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.io.File;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.Line;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 
 
 public class StepMain extends JFrame implements ActionListener, KeyListener
@@ -9,6 +16,8 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 	
 	private Note[] notes;
 	private BaseBar bar;
+	
+	private int counter = 0;
 	
 	private static final int MAX_WIDTH = 1000;  // Window size
 	private static final int MAX_HEIGHT = 1100;  // Window size
@@ -50,23 +59,27 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 	    int keyCode = e.getKeyCode();
 	    if (keyCode == KeyEvent.VK_D)
 	    {
+	      playClip("drumWav.wav");
 	      if (checkIfHit())
 	      {
 	    	  score++;
-	    	  
 	      }
 	    }
 	    else if (keyCode == KeyEvent.VK_F)
 	    {
-
+	    	playClip("drumWav.wav");
 	    }
 	    else if (keyCode == KeyEvent.VK_J)
 	    {
-
+	    	playClip("drumWav.wav");
 	    }
 	    else if (keyCode == KeyEvent.VK_K)
 	    {
-
+	    	playClip("drumWav.wav");
+	    }
+	    else if (keyCode == KeyEvent.VK_1)
+	    {
+	    	playClip("catmeow.wav");
 	    }
 
 
@@ -100,6 +113,7 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 	 
 	 public void actionPerformed(ActionEvent e) // NEW #5 !!!!!!!!!!
 	{
+		 counter++;
 		for (int i = 0; i < 1; i++)
 		{
 			notes[i].move();
@@ -137,6 +151,30 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 		g.setColor(Color.green);
 		g.setFont(new Font("Monospaced", Font.BOLD, 50)); 
 		g.drawString("Score " + score, 700, 100);
+	}
+	
+	public static void playClip(String filename) // Method that plays the sound
+	{
+		try
+		{
+			File audioFile = new File(filename);
+			final Clip clip = (Clip)AudioSystem.getLine(new Line.Info(Clip.class));
+			clip.addLineListener(new LineListener()
+			{
+				@Override
+				public void update(LineEvent event)
+				{
+					if (event.getType() == LineEvent.Type.STOP)
+						clip.close();
+				}
+			});
+			clip.open(AudioSystem.getAudioInputStream(audioFile));
+			clip.start();
+		}
+		catch (Exception exc)
+		{
+			exc.printStackTrace(System.out);
+		}
 	}
 
 }
