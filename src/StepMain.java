@@ -1,9 +1,13 @@
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.File;
+import java.util.ArrayList;
+
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.Line;
@@ -14,10 +18,11 @@ import javax.sound.sampled.LineListener;
 public class StepMain extends JFrame implements ActionListener, KeyListener
 {
 	
-	private Note[] notes;
+	private static ArrayList<Note> noteList = new ArrayList<Note>();
 	private BaseBar bar;
 	
 	private int counter = 0;
+	private int pos = 0;
 	
 	private static final int MAX_WIDTH = 1000;  // Window size
 	private static final int MAX_HEIGHT = 1100;  // Window size
@@ -28,24 +33,17 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 
 	public static void main(String[] args) 
 	{
+		FileInput.fileInput();
+		interpretText();
+		System.out.println(FileInput.arr.size());
 		 StepMain sm = new StepMain(); // creates the window
 		 sm.addKeyListener(sm);
 	}
 	
 	public StepMain()
 	{
-		
-		notes = new Note[1];
+		System.out.println(FileInput.arr.size());
 		bar = new BaseBar();
-
-		for (int i = 0; i < 1; i++)
-		{
-			int x = 300;
-			int y = 0;
-			int noteSpeed = 7;
-	
-		    notes[i] = new Note(x, y, noteSpeed);
-		}
 		
 		setSize(MAX_WIDTH, MAX_HEIGHT);
 		setVisible(true);
@@ -88,8 +86,10 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 	 
 	 public boolean checkIfHit()
 	 {
-		 return notes[0].getY() > bar.getTopBar() && 
-				 notes[0].getBottomY() < bar.getBottomBar();
+		 // implement later: use for each loop to check each individual note so two notes at the same
+		 // time give 2 points instead of 1
+		 return noteList.get(0).getY() > bar.getTopBar() && 
+				 noteList.get(0).getBottomY() < bar.getBottomBar();
 	 }
 
 
@@ -112,14 +112,12 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 	 }
 	 
 	 public void actionPerformed(ActionEvent e) // NEW #5 !!!!!!!!!!
-	{
-		 counter++;
-		for (int i = 0; i < 1; i++)
+	{	
+		//moving the notes
+		for(Note n : noteList)
 		{
-			notes[i].move();
-			//notes[i].bounce(0, MAX_WIDTH, TOP_OF_WINDOW, MAX_HEIGHT); // side of screen
+			n.move();
 		}
-
 		repaint();
 	}
 	
@@ -129,12 +127,16 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 		g.setColor(Color.white);
 		g.fillRect(0, 0, MAX_WIDTH, MAX_HEIGHT);
 
-		for (int i = 0; i < notes.length; i++)
+/*		for (int i = 0; i < notes.length; i++)
 		{
 			g.setColor(Color.blue);
 			notes[i].draw(g);
-		}
+		}*/
 		
+		for (Note n : noteList)
+		{
+			n.draw(g);
+		}
 		for (int i = 0; i < 4; i++)
 		{
 			g.drawRect(300 + i * 100, 900, 100, 90);
@@ -151,6 +153,50 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 		g.setColor(Color.green);
 		g.setFont(new Font("Monospaced", Font.BOLD, 50)); 
 		g.drawString("Score " + score, 700, 100);
+		
+		String letterOnly = FileInput.arr.get(pos).substring(0,1);
+		String numberOnly = FileInput.arr.get(pos).substring(1);
+		
+		/*if(Integer.parseInt(numberOnly) == counter)
+		{
+			if (letterOnly.equals("B"))
+			{
+				g.setColor(Color.blue);
+				notes.draw(g);
+			}
+		}
+		counter++;*/
+		
+
+		
+		
+	}
+	
+	public static void interpretText()
+	{
+		for(String s: FileInput.arr)
+		{
+			String letterOnly = s.substring(0,1);
+			String numberOnly = s.substring(1);
+			
+			if(letterOnly.equals("A"))
+			{
+				noteList.add(new Note(300));
+			}
+			else if (letterOnly.equals("B"))
+			{
+				noteList.add(new Note(400));
+			}
+			else if(letterOnly.equals("C"))
+			{
+				noteList.add(new Note(500));
+			}
+			else if(letterOnly.equals("D"))
+			{
+				noteList.add(new Note(600));
+			}
+			
+		}
 	}
 	
 	public static void playClip(String filename) // Method that plays the sound

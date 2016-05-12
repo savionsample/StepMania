@@ -21,25 +21,30 @@ Additional notes:
 		
 ********************************************************************************/
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileInput 
 {
-    public static void main(String[] args) 
+	public static ArrayList<String> arr = new ArrayList<String>();
+    public static void fileInput()
     {
+    	
         Scanner s = null;
         try 
         {
         	// Open the file.  Note that Eclipse looks for the file in your 
         	//	workspace inside your project folder.
-            s = new Scanner(new BufferedReader(new FileReader("sample1.txt")));
+            s = new Scanner(new BufferedReader(new FileReader("sample.txt")));
 
             // Step through the file, reading one line at a time and printing it.
             while (s.hasNext()) 
             {
             	String oneLine = s.nextLine();
-                System.out.println(oneLine);
+                //System.out.println(oneLine);
+            	arr.add(oneLine);
             }
+        
         }
         catch (IOException e)
         {	

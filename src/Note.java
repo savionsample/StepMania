@@ -12,11 +12,13 @@ class Note
 {
   // DATA:
   private int x;
-  private int y;
+  private int y= 0;
   private int length = 100; // ----
   private int width = 50; // |    |
   private Color color = Color.blue;    // Color of the ball
-  private int speed;
+  private int speed = 7;
+  
+  private int time;
   
   private boolean flash = false;
 
@@ -32,12 +34,9 @@ class Note
    * @param radiusIn  radius
    * @param colorIn   color
    */
-  public Note (int xIn, int yIn, int dyIn)
+  public Note (int xIn)
   {
-    // Nothing to do but save the data in the object's data fields.
     x = xIn;
-    y = yIn;
-    speed = dyIn;
   }
   
   public int getY()
