@@ -15,12 +15,10 @@ class Note
   private int y= 0;
   private int length = 100; // ----
   private int width = 50; // |    |
-  private Color color = Color.blue;    // Color of the ball
+  private Color color = Color.blue;
   private int speed = 7;
   
   private int time;
-  
-  private boolean flash = false;
 
   // METHODS:
 
@@ -51,7 +49,7 @@ class Note
   }
 
 
-  // Move the ball.  Add the velocity to its center.
+  // move the note downwards toward the bar
   public void move()
   {
     y = y + speed;

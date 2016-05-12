@@ -14,8 +14,7 @@ public class BaseBar
   // DATA:
   private int topBar = 900;
   private int bottomBar = 990;
-  
-  private boolean flash = false;
+
   
   public int getTopBar()
   {

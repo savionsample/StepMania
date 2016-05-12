@@ -29,6 +29,14 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 	private static final int TOP_OF_WINDOW = 22; // Top of the visible window
 	private static final int DELAY_IN_MILLISEC = 30; // Time delay between ball
 	
+	
+	private static final int ROW_ONE = 300;
+	private static final int ROW_TWO = 400;
+	private static final int ROW_THREE = 500;
+	private static final int ROW_FOUR = 600;
+	
+	
+	
 	private int score = 0;
 
 	public static void main(String[] args) 
@@ -52,7 +60,7 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 		clock.start(); 
 	}
 	
-	 public void keyPressed(KeyEvent e)     // #4A
+	 public void keyPressed(KeyEvent e)
 	  {
 	    int keyCode = e.getKeyCode();
 	    if (keyCode == KeyEvent.VK_D)
@@ -111,7 +119,7 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 		 
 	 }
 	 
-	 public void actionPerformed(ActionEvent e) // NEW #5 !!!!!!!!!!
+	 public void actionPerformed(ActionEvent e)
 	{	
 		//moving the notes
 		for(Note n : noteList)
@@ -126,50 +134,31 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 		// Clear the window.
 		g.setColor(Color.white);
 		g.fillRect(0, 0, MAX_WIDTH, MAX_HEIGHT);
-
-/*		for (int i = 0; i < notes.length; i++)
-		{
-			g.setColor(Color.blue);
-			notes[i].draw(g);
-		}*/
 		
+		// draw the notes
 		for (Note n : noteList)
 		{
 			n.draw(g);
 		}
+		
+		// draw the bars
 		for (int i = 0; i < 4; i++)
 		{
 			g.drawRect(300 + i * 100, 900, 100, 90);
 		}
 		
+		// draw the columnns
 		for (int i = 0; i < 5; i++)
 		{
 			g.setColor(Color.black);
 			g.drawLine(300 + 100 * i, 20, 300 + 100 * i, 900);
 		}
 		
-		bar.draw(g);
+		//bar.draw(g);
 		
 		g.setColor(Color.green);
 		g.setFont(new Font("Monospaced", Font.BOLD, 50)); 
 		g.drawString("Score " + score, 700, 100);
-		
-		String letterOnly = FileInput.arr.get(pos).substring(0,1);
-		String numberOnly = FileInput.arr.get(pos).substring(1);
-		
-		/*if(Integer.parseInt(numberOnly) == counter)
-		{
-			if (letterOnly.equals("B"))
-			{
-				g.setColor(Color.blue);
-				notes.draw(g);
-			}
-		}
-		counter++;*/
-		
-
-		
-		
 	}
 	
 	public static void interpretText()
@@ -181,19 +170,19 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 			
 			if(letterOnly.equals("A"))
 			{
-				noteList.add(new Note(300));
+				noteList.add(new Note(ROW_ONE));
 			}
 			else if (letterOnly.equals("B"))
 			{
-				noteList.add(new Note(400));
+				noteList.add(new Note(ROW_TWO));
 			}
 			else if(letterOnly.equals("C"))
 			{
-				noteList.add(new Note(500));
+				noteList.add(new Note(ROW_THREE));
 			}
 			else if(letterOnly.equals("D"))
 			{
-				noteList.add(new Note(600));
+				noteList.add(new Note(ROW_FOUR));
 			}
 			
 		}
