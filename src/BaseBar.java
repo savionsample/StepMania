@@ -28,7 +28,7 @@ public class BaseBar
 
   public void draw(Graphics g)
   {
-    g.setColor(Color.red);
+    g.setColor(Color.blue);
     g.drawRect(300, 900, 100, 90);
   }
 }

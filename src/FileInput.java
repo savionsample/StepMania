@@ -26,10 +26,11 @@ import java.util.Scanner;
 
 public class FileInput 
 {
-	public static ArrayList<String> arr = new ArrayList<String>();
-    public static void fileInput()
+	
+	
+    public static ArrayList<String> readInput()
     {
-    	
+		ArrayList<String> arr = new ArrayList<String>();
         Scanner s = null;
         try 
         {
@@ -44,6 +45,7 @@ public class FileInput
                 //System.out.println(oneLine);
             	arr.add(oneLine);
             }
+            return arr;
         
         }
         catch (IOException e)
@@ -61,6 +63,7 @@ public class FileInput
             }
         }
         
-        System.out.println("Done reading the file!");
+        //System.out.println("Done reading the file!");
+        return arr;
     }
 }

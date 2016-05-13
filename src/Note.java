@@ -10,15 +10,21 @@ import javax.swing.*;
 
 class Note
 {
+	
   // DATA:
-  private int x;
-  private int y= 0;
-  private int length = 100; // ----
-  private int width = 50; // |    |
-  private Color color = Color.blue;
-  private int speed = 7;
-  
   private int time;
+  private int x;
+  private int y;
+  private int length = 100;
+  private int width = 50; 
+  
+  private final int SPEED = 7;
+  
+  private boolean alreadyHit = false;
+  private boolean alreadyCheckedAcc = false;
+  
+  
+  
 
   // METHODS:
 
@@ -32,9 +38,11 @@ class Note
    * @param radiusIn  radius
    * @param colorIn   color
    */
-  public Note (int xIn)
+  public Note (int xIn, int xNumber)
   {
     x = xIn;
+    time = xNumber;
+    y = -25 * time;
   }
   
   public int getY()
@@ -52,16 +60,37 @@ class Note
   // move the note downwards toward the bar
   public void move()
   {
-    y = y + speed;
+    y = y + SPEED;
+  }
+  
+  public void setHit()
+  {
+	  alreadyHit = true;
+  }
+  
+  public boolean getAlreadyHit()
+  {
+	  return alreadyHit;
+  }
+  
+  public void setCheckedAcc()
+  {
+	  alreadyCheckedAcc = true;
+  }
+  
+  public boolean getAlreadyCheckedAcc()
+  {
+	  return alreadyCheckedAcc;
   }
 
  
   public void draw(Graphics g)
   {
-    g.setColor(color);
+    g.setColor(Color.blue);
 
     g.setColor(Color.blue);
     g.fillRect(x, y, length, width); 
+    //g.fillRect(x, -5 * number, length, width); 
     
     
   }

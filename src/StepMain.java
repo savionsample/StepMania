@@ -4,6 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.io.File;
 import java.util.ArrayList;
@@ -21,36 +22,37 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 	private static ArrayList<Note> noteList = new ArrayList<Note>();
 	private BaseBar bar;
 	
-	private int counter = 0;
 	private int pos = 0;
 	
-	private static final int MAX_WIDTH = 1000;  // Window size
+	private static final int MAX_WIDTH = 1100;  // Window size
 	private static final int MAX_HEIGHT = 1100;  // Window size
 	private static final int TOP_OF_WINDOW = 22; // Top of the visible window
 	private static final int DELAY_IN_MILLISEC = 30; // Time delay between ball
-	
 	
 	private static final int ROW_ONE = 300;
 	private static final int ROW_TWO = 400;
 	private static final int ROW_THREE = 500;
 	private static final int ROW_FOUR = 600;
 	
-	
-	
 	private int score = 0;
+	private int totalPossibleScore;
+	
+	int index = 0;
+	
 
 	public static void main(String[] args) 
 	{
-		FileInput.fileInput();
+		playClip("TearInMyHeart.wav");
+		FileInput.readInput();
 		interpretText();
-		System.out.println(FileInput.arr.size());
+		System.out.println(FileInput.readInput().size());
 		 StepMain sm = new StepMain(); // creates the window
 		 sm.addKeyListener(sm);
 	}
 	
 	public StepMain()
 	{
-		System.out.println(FileInput.arr.size());
+		System.out.println(FileInput.readInput().size());
 		bar = new BaseBar();
 		
 		setSize(MAX_WIDTH, MAX_HEIGHT);
@@ -65,39 +67,63 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 	    int keyCode = e.getKeyCode();
 	    if (keyCode == KeyEvent.VK_D)
 	    {
-	      playClip("drumWav.wav");
-	      if (checkIfHit())
-	      {
-	    	  score++;
-	      }
+	        playClip("drumWav.wav");
+	        if (checkIfHit(index))
+	        {
+	    	    noteList.get(index).setHit();
+	    	    score++;
+	        }
 	    }
 	    else if (keyCode == KeyEvent.VK_F)
 	    {
 	    	playClip("drumWav.wav");
+	    	if (checkIfHit(index))
+		    {
+	    		noteList.get(index).setHit();
+		    	score++;
+		    }
 	    }
 	    else if (keyCode == KeyEvent.VK_J)
 	    {
 	    	playClip("drumWav.wav");
+	    	if (checkIfHit(index))
+		    {
+	    		noteList.get(index).setHit();
+		    	score++;
+		    }
 	    }
 	    else if (keyCode == KeyEvent.VK_K)
 	    {
 	    	playClip("drumWav.wav");
+	    	if (checkIfHit(index))
+		    {
+	    		noteList.get(index).setHit();
+		    	score++;
+		    }
 	    }
 	    else if (keyCode == KeyEvent.VK_1)
 	    {
 	    	playClip("catmeow.wav");
 	    }
+	    
 
 
 	  repaint();
 	 }
 	 
-	 public boolean checkIfHit()
+	 public boolean checkIfHit(int col)
 	 {
 		 // implement later: use for each loop to check each individual note so two notes at the same
 		 // time give 2 points instead of 1
-		 return noteList.get(0).getY() > bar.getTopBar() && 
-				 noteList.get(0).getBottomY() < bar.getBottomBar();
+		 
+		 if (totalPossibleScore != 0)
+		 {
+			 col = col % noteList.size();
+		 }
+		 
+		 return noteList.get(col).getY() > bar.getTopBar() && 
+				 noteList.get(col).getBottomY() < bar.getBottomBar() &&
+				 !noteList.get(col).getAlreadyHit();
 	 }
 
 
@@ -119,7 +145,7 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 		 
 	 }
 	 
-	 public void actionPerformed(ActionEvent e)
+	 public void actionPerformed(ActionEvent e) // NEW #5 !!!!!!!!!!
 	{	
 		//moving the notes
 		for(Note n : noteList)
@@ -138,6 +164,7 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 		// draw the notes
 		for (Note n : noteList)
 		{
+			g.setColor(Color.blue);
 			n.draw(g);
 		}
 		
@@ -154,35 +181,59 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 			g.drawLine(300 + 100 * i, 20, 300 + 100 * i, 900);
 		}
 		
-		//bar.draw(g);
+		////
+		for (Note n: noteList)
+		{
+			if (n.getY() > bar.getBottomBar() && !n.getAlreadyCheckedAcc())
+			{
+				n.setCheckedAcc();
+				totalPossibleScore++;
+				index++;
+			}
+		}
+		
+		
+		bar.draw(g);
 		
 		g.setColor(Color.green);
 		g.setFont(new Font("Monospaced", Font.BOLD, 50)); 
 		g.drawString("Score " + score, 700, 100);
+		
+		if (totalPossibleScore == 0)
+		{
+			g.drawString("Acc: 100%", 700, 300);
+		}
+		else
+		{
+			double acc = (double)score / (double)totalPossibleScore * 100;
+			g.drawString("Acc: " + acc + "%", 700, 300);
+		}
+		
+	
 	}
 	
 	public static void interpretText()
 	{
-		for(String s: FileInput.arr)
+		for(String s: FileInput.readInput())
 		{
 			String letterOnly = s.substring(0,1);
 			String numberOnly = s.substring(1);
 			
 			if(letterOnly.equals("A"))
 			{
-				noteList.add(new Note(ROW_ONE));
+				noteList.add(new Note(ROW_ONE, Integer.parseInt(numberOnly)));
 			}
 			else if (letterOnly.equals("B"))
 			{
-				noteList.add(new Note(ROW_TWO));
+				noteList.add(new Note(ROW_TWO, Integer.parseInt(numberOnly)));
 			}
 			else if(letterOnly.equals("C"))
 			{
-				noteList.add(new Note(ROW_THREE));
+				noteList.add(new Note(ROW_THREE, Integer.parseInt(numberOnly)));
 			}
 			else if(letterOnly.equals("D"))
 			{
-				noteList.add(new Note(ROW_FOUR));
+				noteList.add(new Note(ROW_FOUR, Integer.parseInt(numberOnly)));
 			}
 			
 		}
@@ -204,7 +255,8 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 				}
 			});
 			clip.open(AudioSystem.getAudioInputStream(audioFile));
-			clip.start();
+			//clip.start();
+			clip.loop(0);
 		}
 		catch (Exception exc)
 		{
