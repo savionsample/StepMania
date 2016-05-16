@@ -17,6 +17,7 @@ class Note
   private int y;
   private int length = 100;
   private int width = 50; 
+  private Color color;
   
   private final int SPEED = 7;
   
@@ -43,6 +44,23 @@ class Note
     x = xIn;
     time = xNumber;
     y = -25 * time;
+    
+    if (x == 300)
+    {
+    	color = Color.blue;
+    }
+    if (x == 400)
+    {
+    	color = Color.green;
+    }
+    if (x == 500)
+    {
+    	color = Color.red;
+    }
+    if (x == 600)
+    {
+    	color = Color.yellow;
+    }
   }
   
   public int getY()
@@ -86,9 +104,8 @@ class Note
  
   public void draw(Graphics g)
   {
-    g.setColor(Color.blue);
+    g.setColor(color);
 
-    g.setColor(Color.blue);
     g.fillRect(x, y, length, width); 
     //g.fillRect(x, -5 * number, length, width); 
     
