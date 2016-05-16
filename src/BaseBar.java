@@ -12,9 +12,16 @@ import javax.swing.*;
 public class BaseBar
 {
   // DATA:
-  private int topBar = 900;
-  private int bottomBar = 990;
-
+  private int topBar;
+  private int bottomBar;
+  private int barWidth = 90;
+  private int barLength = 100;
+  
+  public BaseBar()
+  {
+	  topBar = 900;
+	  bottomBar = topBar + barWidth;
+  }
   
   public int getTopBar()
   {
@@ -29,7 +36,7 @@ public class BaseBar
   public void draw(Graphics g)
   {
     g.setColor(Color.blue);
-    g.drawRect(300, 900, 100, 90);
+    g.drawRect(300, topBar, barLength, barWidth);
   }
 }
 

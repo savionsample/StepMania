@@ -10,8 +10,6 @@ import javax.swing.*;
 
 class Note
 {
-	
-  // DATA:
   private int time;
   private int x;
   private int y;
@@ -24,10 +22,6 @@ class Note
   private boolean alreadyHit = false;
   private boolean alreadyCheckedAcc = false;
   
-  
-  
-
-  // METHODS:
 
   /**
    * Ball constructor initializes the Ball object
@@ -49,15 +43,15 @@ class Note
     {
     	color = Color.blue;
     }
-    if (x == 400)
+    else if (x == 400)
     {
     	color = Color.green;
     }
-    if (x == 500)
+    else if (x == 500)
     {
     	color = Color.red;
     }
-    if (x == 600)
+    else if (x == 600)
     {
     	color = Color.yellow;
     }
@@ -100,16 +94,11 @@ class Note
   {
 	  return alreadyCheckedAcc;
   }
-
- 
   public void draw(Graphics g)
   {
     g.setColor(color);
 
     g.fillRect(x, y, length, width); 
-    //g.fillRect(x, -5 * number, length, width); 
-    
-    
   }
 }
 
