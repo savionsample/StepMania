@@ -54,7 +54,7 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 	public StepMain()
 	{
 		bar = new BaseBar();
-		//playClip("Paris.wav"); //PLAYING SONG CLIP
+		playClip("Paris.wav"); //PLAYING SONG CLIP
 		setSize(MAX_WIDTH, MAX_HEIGHT);
 		setVisible(true);
 		createBufferStrategy(2);
