@@ -6,18 +6,18 @@
  *      and draw itself.
  ***********************************************************************************/
 import java.awt.*;
-import javax.swing.*;
 
 class Note
 {
-  private int time;
   private int x;
   private int y;
+  private int time;
   private int length = 100;
   private int width = 50; 
   private Color color;
   
-  private final int SPEED = 7;
+  private final int SPEED = 11;
+  private final int MULTIPLIER = -15;
   
   private boolean alreadyHit = false;
   private boolean alreadyCheckedAcc = false;
@@ -33,25 +33,25 @@ class Note
    * @param radiusIn  radius
    * @param colorIn   color
    */
-  public Note (int xIn, int xNumber)
+  public Note (int xIn, int t)
   {
     x = xIn;
-    time = xNumber;
-    y = -25 * time;
+    time = t;
+    y = MULTIPLIER * time;
     
-    if (x == 300)
+    if (x == StepMain.COL_ONE)
     {
     	color = Color.blue;
     }
-    else if (x == 400)
+    else if (x == StepMain.COL_TWO)
     {
     	color = Color.green;
     }
-    else if (x == 500)
+    else if (x == StepMain.COL_THREE)
     {
     	color = Color.red;
     }
-    else if (x == 600)
+    else if (x == StepMain.COL_FOUR)
     {
     	color = Color.yellow;
     }
@@ -62,14 +62,17 @@ class Note
 	  return y;
   }
   
+  public int getX()
+  {
+	  return x;
+  }
+  
   public int getBottomY()
   {
 	  int yBottom = y + width;
 	  return yBottom;
   }
 
-
-  // move the note downwards toward the bar
   public void move()
   {
     y = y + SPEED;
@@ -94,12 +97,14 @@ class Note
   {
 	  return alreadyCheckedAcc;
   }
+  
   public void draw(Graphics g)
   {
     g.setColor(color);
 
     g.fillRect(x, y, length, width); 
   }
+  
 }
 
 

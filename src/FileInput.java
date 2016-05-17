@@ -36,7 +36,7 @@ public class FileInput
         {
         	// Open the file.  Note that Eclipse looks for the file in your 
         	//	workspace inside your project folder.
-            s = new Scanner(new BufferedReader(new FileReader("sample.txt")));
+            s = new Scanner(new BufferedReader(new FileReader("ParisNotes.txt")));
 
             // Step through the file, reading one line at a time and printing it.
             while (s.hasNext()) 

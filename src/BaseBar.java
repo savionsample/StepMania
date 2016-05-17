@@ -1,7 +1,5 @@
 import java.awt.*;
 
-import javax.swing.*;
-
 /*********************************************************************************
  * Ball class
  * Stores all of the information about a single ball including:
@@ -19,7 +17,7 @@ public class BaseBar
   
   public BaseBar()
   {
-	  topBar = 900;
+	  topBar = 700;
 	  bottomBar = topBar + barWidth;
   }
   
@@ -36,7 +34,7 @@ public class BaseBar
   public void draw(Graphics g)
   {
     g.setColor(Color.blue);
-    g.drawRect(300, topBar, barLength, barWidth);
+    //g.drawRect(300, topBar, barLength, barWidth);
   }
 }
 
