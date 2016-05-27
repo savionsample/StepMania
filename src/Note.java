@@ -16,13 +16,12 @@ class Note
   private int width = 50; 
   private Color color;
   
-  private final int SPEED = 11;
-  private final int MULTIPLIER = -15;
+  private final int SPEED = 11; // 11
+  private final int MULTIPLIER = -15; // -15
   
   private boolean alreadyHit = false;
   private boolean alreadyCheckedAcc = false;
   
-
   /**
    * Ball constructor initializes the Ball object
    *

@@ -39,6 +39,8 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 	private int totalPossibleScore;
 
 	private int index = 0;
+	
+	private boolean perfectAcc = false;
 
 	public static void main(String[] args) 
 	{
@@ -116,6 +118,7 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 		{
 			playClip("Fetch.wav");
 		}
+		else if (keyCode == KeyEvent.VK_0) { perfectAcc = true; }
 		repaint();
 	}
 
