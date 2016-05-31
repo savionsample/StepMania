@@ -1,9 +1,7 @@
 /*********************************************************************************
- * Ball class
- * Stores all of the information about a single ball including:
- *      center, velocity, radius and color
- * It provides methods to move the ball, handle bouncing within a rectangle
- *      and draw itself.
+ * Note class
+ * Stores all of the information about a single note including:
+ * x pos, y pos, length of note, width of note, and "time" the note should come in
  ***********************************************************************************/
 import java.awt.*;
 
@@ -16,9 +14,10 @@ class Note
   private int width = 50; 
   private Color color;
   
-  private final int SPEED = 11; // 11
-  private final int MULTIPLIER = -15; // -15
   
+  private int speed;
+  private int multiplier;
+
   private boolean alreadyHit = false;
   private boolean alreadyCheckedAcc = false;
   
@@ -32,12 +31,15 @@ class Note
    * @param radiusIn  radius
    * @param colorIn   color
    */
-  public Note (int xIn, int t)
+  public Note (int xIn, int t, int noteSpeed, int noteMultiplier)
   {
+	speed = noteSpeed;
+	multiplier = noteMultiplier;
+	  
     x = xIn;
     time = t;
-    y = MULTIPLIER * time;
-    
+    y = multiplier * time;
+   
     if (x == StepMain.COL_ONE)
     {
     	color = Color.blue;
@@ -74,7 +76,7 @@ class Note
 
   public void move()
   {
-    y = y + SPEED;
+	  y = y + speed;
   }
   
   public void setHit()

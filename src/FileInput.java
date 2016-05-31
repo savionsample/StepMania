@@ -27,8 +27,7 @@ import java.util.Scanner;
 public class FileInput 
 {
 	
-	
-    public static ArrayList<String> readInput()
+    public static ArrayList<String> readInput(String songName)
     {
 		ArrayList<String> arr = new ArrayList<String>();
         Scanner s = null;
@@ -36,13 +35,27 @@ public class FileInput
         {
         	// Open the file.  Note that Eclipse looks for the file in your 
         	//	workspace inside your project folder.
-            s = new Scanner(new BufferedReader(new FileReader("ParisNotes.txt")));
+        	if (songName.equals("Paris"))
+        	{
+        		s = new Scanner(new BufferedReader(new FileReader("ParisNotes.txt")));
+        	}
+        	else if (songName.equals("TearInMyHeart"))
+        	{
+        		s = new Scanner(new BufferedReader(new FileReader("TearInMyHeartNotes.txt")));
+        	}
+        	else if (songName.equals("Dragonforce"))
+        	{
+        		s = new Scanner(new BufferedReader(new FileReader("DragonforceNotes.txt")));
+        	}
+        	else if (songName.equals("Freeze"))
+        	{
+        		s = new Scanner(new BufferedReader(new FileReader("FreezeNotes.txt")));
+        	}
 
             // Step through the file, reading one line at a time and printing it.
             while (s.hasNext()) 
             {
             	String oneLine = s.nextLine();
-                //System.out.println(oneLine);
             	arr.add(oneLine);
             }
             return arr;
@@ -65,5 +78,6 @@ public class FileInput
         
         //System.out.println("Done reading the file!");
         return arr;
-    }
+    }		
+   
 }

@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 import java.awt.Color;
@@ -8,18 +9,10 @@ import java.awt.image.BufferStrategy;
 import java.awt.Graphics;
 import java.io.File;
 import java.util.ArrayList;
-
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
+import java.util.Scanner;
 
 import javax.sound.sampled.*;
 
-
-
-/// IDEAS
-/// create something that randomly generates a file with numbers multiples of 15
-/// - options to change note speed
 public class StepMain extends JFrame implements ActionListener, KeyListener
 {
 	
@@ -35,20 +28,23 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 	public static final int COL_THREE = 500;
 	public static final int COL_FOUR = 600;
 
+	private int index = 0;
 	private int score = 0;
 	private int totalPossibleScore;
 
-	private int index = 0;
-	
 	private boolean perfectAcc = false;
+	
+	private static String notes = "";
 
 	public static void main(String[] args) 
 	{
-		FileInput.readInput();
+		Scanner console = new Scanner(System.in);
+		System.out.println("print song name with no spaces");
+		notes = console.nextLine();
+		playClip(notes + ".wav"); //PLAYING SONG CLIP
+		
 		interpretText();
-		
 		StepMain sm = new StepMain();
-		
 		sm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		sm.addKeyListener(sm);
 	}
@@ -56,7 +52,7 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 	public StepMain()
 	{
 		bar = new BaseBar();
-		playClip("Paris.wav"); //PLAYING SONG CLIP
+		
 		setSize(MAX_WIDTH, MAX_HEIGHT);
 		setVisible(true);
 		createBufferStrategy(2);
@@ -118,21 +114,20 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 		{
 			playClip("Fetch.wav");
 		}
-		else if (keyCode == KeyEvent.VK_0) { perfectAcc = true; }
+		else if (keyCode == KeyEvent.VK_0) 
+		{ 
+			perfectAcc = true; 
+		}
 		repaint();
 	}
 
 	public boolean checkIfHit(int col, int row) // row = up down
 	{
-		// implement later: use for each loop to check each individual note so two notes at the same
-		// time give 2 points instead of 1
-
 		if (totalPossibleScore != 0)
 		{
 			col = col % noteList.size();
 		}
 
-		// doesn't check if the note hit is in the right col
 		return noteList.get(col).getY() > bar.getTopBar() && 
 				noteList.get(col).getBottomY() < bar.getBottomBar() &&
 				noteList.get(col).getX() == row &&
@@ -224,7 +219,6 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 			g.drawLine(300 + 100 * i, 20, 300 + 100 * i, 700);
 		}
 
-		// move to action performed
 		for (Note n : noteList)
 		{
 			if (n.getY() > bar.getBottomBar() && !n.getAlreadyCheckedAcc())
@@ -238,50 +232,76 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 		g.setColor(Color.green);
 		g.setFont(new Font("Monospaced", Font.PLAIN, 50)); 
 		g.drawString("Score " + score, 700, 100);
-
-		if (totalPossibleScore == 0)
+		
+		if (perfectAcc)
 		{
-			g.drawString("Acc: 100%", 700, 300);
+			g.drawString("Acc: 100.0%", 700, 300);
 		}
 		else
 		{
-			double acc = (double)score / (double)totalPossibleScore * 100;
-			g.drawString("Acc: " + acc + "%", 700, 300);
+			if (totalPossibleScore == 0)
+			{
+				g.drawString("Acc: 100%", 700, 300);
+			}
+			else
+			{
+				double acc = (double)score / (double)totalPossibleScore * 100;
+				g.drawString("Acc: " + acc + "%", 700, 300);
+			}
 		}
 	}
 
 	public static void interpretText()
 	{
-		for(String s: FileInput.readInput())
+		for(String s: FileInput.readInput(notes))
 		{
+			int speed = 0;
+			int multiplier = 0;
+			if (notes.equals("Paris"))
+			{
+				speed = 11;
+				multiplier = -15;
+			}
+			else if (notes.equals("TearInMyHeart"))
+			{
+				speed = 8;
+				multiplier = -25;
+			}
+			else if (notes.equals("Dragonforce"))
+			{
+				speed = 42;
+				multiplier = -15;
+			}
+			else if (notes.equals("Freeze"))
+			{
+				speed = 42;
+				multiplier = -15;
+			}
+			
 			String letterOnly = s.substring(0,1);
 			String numberOnly = s.substring(1);
 
 			if(letterOnly.equals("A"))
 			{
-				noteList.add(new Note(COL_ONE, Integer.parseInt(numberOnly)));
+				noteList.add(new Note(COL_ONE, Integer.parseInt(numberOnly), speed, multiplier));
 			}
 			else if (letterOnly.equals("B"))
 			{
-				noteList.add(new Note(COL_TWO, Integer.parseInt(numberOnly)));
+				noteList.add(new Note(COL_TWO, Integer.parseInt(numberOnly), speed, multiplier));
 			}
 			else if(letterOnly.equals("C"))
 			{
-				noteList.add(new Note(COL_THREE, Integer.parseInt(numberOnly)));
+				noteList.add(new Note(COL_THREE, Integer.parseInt(numberOnly), speed, multiplier));
 			}
 			else if(letterOnly.equals("D"))
 			{
-				noteList.add(new Note(COL_FOUR, Integer.parseInt(numberOnly)));
+				noteList.add(new Note(COL_FOUR, Integer.parseInt(numberOnly), speed, multiplier));
 			}
-
 		}
 	}
 
-	public static void playClip(String filename) // Method that plays the sound
+	public static void playClip(String filename)
 	{
-		// system.exit
-		// could put Clip clip in class scope and nothing else and then 
-		// do clip.stop right under opening window
 		try
 		{
 			File audioFile = new File(filename);
