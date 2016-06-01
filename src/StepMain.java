@@ -13,6 +13,8 @@ import java.util.Scanner;
 
 import javax.sound.sampled.*;
 
+// by Ben Z, Savion, Alex, Nitya
+
 public class StepMain extends JFrame implements ActionListener, KeyListener
 {
 	
@@ -39,7 +41,7 @@ public class StepMain extends JFrame implements ActionListener, KeyListener
 	public static void main(String[] args) 
 	{
 		Scanner console = new Scanner(System.in);
-		System.out.println("print song name with no spaces");
+		System.out.println("print song name with no spaces: Paris, TearInMyHeart, Dragonforce, Freeze");
 		notes = console.nextLine();
 		playClip(notes + ".wav"); //PLAYING SONG CLIP
 		
